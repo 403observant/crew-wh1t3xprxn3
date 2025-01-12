@@ -21,7 +21,6 @@ body {
     color: #fff;
 }
 
-
 .discord-link {
     position: relative;
 }
@@ -58,7 +57,6 @@ body {
     border-color: #1a1a1a transparent transparent transparent;
 }
 
-
 .terminal {
     background: rgba(28, 28, 35, 0.7);
     backdrop-filter: blur(12px);
@@ -69,15 +67,21 @@ body {
     width: 80%;
     max-width: 786px;
     border: 1px solid rgba(255, 255, 255, 0.1);
+    animation: terminalEntry 1.2s ease-out;
+    transform-origin: center;
 }
 
 .crow-symbol {
     font-family: monospace;
     white-space: pre;
-    color: var(--neon-red);
-    text-shadow: 0 0 5px var(--neon-red);
-    animation: glow 2s ease-in-out infinite alternate;
+    animation: wave 8s infinite ease-in-out; /* Увеличена длительность анимации */
     margin-bottom: 2rem;
+    display: inline-block;
+    background: linear-gradient(90deg, #fff, #777, #ccc, #777, #fff); /* Горизонтальный градиент */
+    background-size: 400% 100%; /* Увеличение размера фона для плавного перелива */
+    background-position: 0 0;
+    -webkit-background-clip: text;
+    color: transparent;
 }
 
 .bio-content {
@@ -85,6 +89,7 @@ body {
     border: 1px solid rgba(255, 45, 45, 0.3);
     border-radius: 10px;
     background: rgba(255, 45, 45, 0.05);
+    animation: slideUp 1s ease-out 0.3s both;
 }
 
 .bio-text {
@@ -115,12 +120,28 @@ body {
     border: 1px solid rgba(0, 255, 255, 0.3);
     border-radius: 5px;
     transition: all 0.3s ease;
+    animation: fadeInScale 0.5s ease-out backwards;
+    
+    /* Центрирование текста */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.social-link span {
+    display: block; /* Для правильного отображения текста */
+    margin: 0 auto; /* Чтобы текст точно оказался по центру */
 }
 
 .social-link:hover {
     background: rgba(0, 255, 255, 0.1);
     box-shadow: 0 0 10px rgba(0, 255, 255, 0.2);
 }
+
+.social-links a:nth-child(1) { animation-delay: 1s; }
+.social-links a:nth-child(2) { animation-delay: 1.2s; }
+.social-links a:nth-child(3) { animation-delay: 1.4s; }
 
 .stats {
     display: flex;
@@ -135,13 +156,54 @@ body {
     50% { opacity: 0; }
 }
 
-@keyframes glow {
-    from {
-        text-shadow: 0 0 5px var(--neon-red);
+@keyframes wave {
+    0% { 
+        background-position: 0 0; /* Начало перелива слева */
     }
-    to {
-        text-shadow: 0 0 10px var(--neon-red),
-                     0 0 15px var(--neon-red);
+    25% { 
+        background-position: 100% 0; /* Перелив в правую сторону */
+    }
+    50% { 
+        background-position: 200% 0; /* Перелив в ещё правее */
+    }
+    75% { 
+        background-position: 300% 0; /* Перелив почти полностью справа */
+    }
+    100% { 
+        background-position: 0 0; /* Возвращение к начальной позиции */
+    }
+}
+
+@keyframes terminalEntry {
+    0% {
+        opacity: 0;
+        transform: scale(0.95) translateY(40px);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+@keyframes slideUp {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInScale {
+    0% {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
     }
 }
 
@@ -150,15 +212,15 @@ body {
         width: 95%;
         padding: 1rem;
     }
-    
+
     .crow-symbol {
         font-size: 0.7em;
     }
-    
+
     .social-links {
         grid-template-columns: 1fr;
     }
-    
+
     .stats {
         flex-direction: column;
         align-items: center;
